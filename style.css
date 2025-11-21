@@ -3,18 +3,15 @@
     padding: 0;
     box-sizing: border-box;
 }
-
 body{
     background-color: rgb(231, 231, 231);
     display: flex;
-    padding: 15px;
+      padding: 15px;
     justify-content: space-around;
     align-items: center;
     position: relative;
     overflow: hidden;
 }
-
-/* aside */
 aside{
     padding: 1rem;
     height: 90vh;
@@ -23,6 +20,7 @@ aside{
     border-radius: 15px;
     box-shadow: 0 0 5px;
     position: relative;
+
 }
 
 .controls {
@@ -40,23 +38,20 @@ aside{
     margin-bottom: 10px;
     font-size: 15px;
 }
-
 #addnewmember-btn{
     background-color: rgb(90, 173, 90);
     height: 5%;
-    width: 50%;
+    width: 50% ;
     color: white;
     border: 0;
     border-radius: 15px;
     font-size: 100%;
     transition: all 1s;
     align-self: center;
-    position: absolute;
-    bottom: 10px;
-    left: 25%;
-}
-
-
+   position: absolute;
+   bottom: 10px;
+   left: 25%;
+    }
 main{
     background : url(plan.jpg);
     background-repeat: no-repeat ;
@@ -68,9 +63,9 @@ main{
     grid-template-columns:0.83fr 0.38fr 0.5fr 0.5fr ;
     grid-template-rows:1.05fr 1.1fr 1fr 0.22fr;
     grid-template-areas:
-        "conference emptyy server security"
+     "conference emptyy server security"
         "reception emptyy emptyx emptyx"
-        "reception emptyy staffroom archive";
+        "reception emptyy staffroom archive"; ;
     padding-top: 60px;
     gap: 10px;
     padding-left: 15px;
@@ -106,17 +101,16 @@ main{
 .assigned-member {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     padding: 8px;
     background-color: white;
     border: 1px solid #888;
     border-radius: 10px;
     font-size: 14px;
     width: 100%;
-    margin-top: 10px;
     box-shadow: 0 2px 3px rgba(0,0,0,0.2);
-    position: relative;
 }
+
 
 .avatar-zone {
     width: 45px;
@@ -125,13 +119,12 @@ main{
     object-fit: cover;
 }
 
+
 .plus{
     width: 40px;
     height: 30px;
     border-radius: 10px;
 }
-
-
 .conference {
     grid-area: conference;
     /* background-color: rgba(255, 0, 0, 0.4); */
@@ -169,8 +162,16 @@ main{
 .empty-y {
     grid-area: emptyy;
 }
+.contenumembre{
+    display: flex;
+    flex-direction: column;
+}
 
-.modaldisponible,
+.closes{
+    display: none;
+}
+
+.modaldisponible ,
 .formmodal {  
     position: fixed;
     top: 50%;
@@ -187,6 +188,7 @@ main{
     z-index: 1000;
 }
 
+
 .close {
     position: absolute;
     right: 10px;
@@ -198,7 +200,21 @@ main{
     cursor: pointer;
 }
 
-/* formulaire */
+.formmodal form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+
+.modal-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #007bff;
+    text-align: center;
+    font-weight: bold;
+}
 
 form label {
     font-weight: 600;
@@ -216,6 +232,7 @@ form select {
     font-size: 15px;
 }
 
+
 .photo-preview {
     width: 130px;
     height: 130px;
@@ -227,6 +244,7 @@ form select {
     background-color: #f5f5f5;
     display: block;
 }
+
 
 .exp-title {
     margin-top: 20px;
@@ -247,18 +265,19 @@ form select {
 .experience-block input {
     margin-bottom: 8px;
 }
-
 .btn-remove{
-    background-color: #dc3545;
-    color: white;
-    font-size: 14px;
-    font-weight: 600;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    padding: 4px 8px;
-    position: absolute;
-    right: 20px;
+  background-color: #dc3545;
+  color: white;
+  font-family: sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 4px 8px;
+  position: absolute;
+  right: 20px;
 }
 
 .add-exp-btn {
@@ -286,58 +305,113 @@ form select {
     font-size: 16px;
 }
 
-/* list membre */
+
+.membre {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 12px;
+    box-shadow: 0 0 4px rgba(0,0,0,0.15);
+    border-left: 4px solid #4CAF50;
+}
+
+
+
+
+.membre-photo {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    background-size: cover;     
+    background-position: center; 
+    background-repeat: no-repeat;
+}
+
+
+
+.membre-info p {
+    margin: 3px 0;
+    font-size: 14px;
+}
+
+.membre-info span {
+    color: #444;
+}
+
+
+.edit-btn {
+    margin-left: auto;
+    background: #2196F3;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+.edit-btn:hover {
+    background: #0b7dda;
+}
+
 
 .itemmembre {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-    margin: 3px 0;
-    background: #ffffff;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 0.25s ease;
-    border: 1px solid #e1e1e1;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  margin: 3px 0;
+  background: #ffffff;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.25s ease;
+  border: 1px solid #e1e1e1;
 }
+
 
 .itemmembre:hover {
-    background: #f3f6ff;
-    transform: translateX(4px);
-    border-color: #c5caff;
+  background: #f3f6ff;
+  transform: translateX(4px);
+  border-color: #c5caff;
 }
+
 
 .avatar {
-    width: 55px;
-    height: 55px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 2px solid #d8d8d8;
+  width: 55px;
+  height: 55px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #d8d8d8;
 }
 
+
 .itemmembre p {
-    margin: 0;
-    font-size: 16px;
-    color: #333;
+  margin: 0;
+  font-size: 16px;
+  color: #333;
 }
 
 .itemmembre h4 {
-    font-size: 13px;
-    color: #777;
+  font-size: 13px;
+  color: #777;
 }
 
 .listemodal {
-    margin-top: 15px;
-    max-height: 350px;
-    overflow-y: auto;
-    padding-right: 6px;
+  margin-top: 15px;
+  max-height: 350px;
+  overflow-y: auto;
+  padding-right: 6px;
 }
 
-/* details membre */
 
 .detail-box {
-    padding: 15px;
+    padding: 20px;
     text-align: center;
 }
 
@@ -349,59 +423,135 @@ form select {
     margin-bottom: 15px;
 }
 
-.detail-info p {
-    margin: 6px 0;
-}
-
-.experience-list {
-    margin-top: 10px;
-    padding-left: 5px;
-}
-
-.exp-item {
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    background: #f7f7f7;
-}
-
-.no-exp {
-    font-style: italic;
-    color: gray;
-}
-
 .assign-btn {
-    margin-top: 15px;
-    padding: 10px;
-    background: #2196F3;
-    color: white;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #3b6cff;
     border: none;
+    color: white;
+    border-radius: 10px;
     cursor: pointer;
-    width: 100%;
-    border-radius: 8px;
+    font-weight: bold;
+}
+
+.assign-btn:hover {
+    background: #244bff;
+}
+
+.assigned-member {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 10px;
+}
+
+.avatar-zone {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .removemembre {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    width: 22px;
-    height: 22px;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    color: white;
-    background-color: #e74c3c;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: 0.2s ease;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  background-color: #e74c3c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.2s ease;
 }
 
 .removemembre:hover {
-    background-color: #c0392b;
-    transform: scale(1.1);
+  background-color: #c0392b;
+  transform: scale(1.1);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.detail-box {
+  padding: 15px;
+}
+
+.avatar-big {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.detail-info p {
+  margin: 6px 0;
+}
+
+.experience-list {
+  margin-top: 10px;
+  padding-left: 5px;
+}
+
+.exp-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  background: #f7f7f7;
+}
+
+.no-exp {
+  font-style: italic;
+  color: gray;
+}
+
+.assign-btn {
+  margin-top: 15px;
+  padding: 10px;
+  background: #2196F3;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 8px
+}
+
+
+@media  (max-width: 1500px) {
+    main{
+    grid-template-columns:0.89fr 0.38fr 0.55fr 0.5fr ;
+    grid-template-rows:1.05fr 1.1fr 1fr 0.22fr;
+    grid-template-areas:
+     "conference emptyy server security"
+        "reception emptyy emptyx emptyx"
+        "reception emptyy staffroom archive"; ;
+    gap: 4px;
+
+}
+  aside {
+    width: 28%;
+  }
 }

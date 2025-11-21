@@ -132,3 +132,24 @@ function afficherMembres() {
     titre.textContent = "";
   });
 }
+
+function modifiermembre(id){
+   ajout();
+    const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
+    const membre =membres[id];
+    document.getElementById("nom").value = membre.name;
+    document.getElementById("roles").value = membre.role;
+    document.getElementById("image").value = membre.image;
+    document.getElementById("email").value = membre.email;
+    document.getElementById("number").value = membre.telephone;
+    photoPreview.src = `${membre.image}`;
+    formulaire.setAttribute("index-edit", id);
+
+ 
+}
+
+
+
+window.onload=function(){
+  afficherMembres()
+}
