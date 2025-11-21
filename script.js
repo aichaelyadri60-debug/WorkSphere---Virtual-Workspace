@@ -109,6 +109,25 @@ formulaire.addEventListener("submit", (e) => {
   afficherMembres();
 });
 
+
+
+function ajoutexperience() {
+  let parent = document.querySelector("#experience-container");
+  let enfant = document.createElement("div");
+  enfant.classList.add("experience-block");
+  enfant.innerHTML = `
+  <button onclick="sumpression(this)" class="btn-remove">remove</button>
+    <label>Company:</label>
+    <input type="text" class="exp-company" placeholder="Enter company">
+    <label>Role:</label>
+    <input type="text" class="exp-role" placeholder="Enter role">
+    <label>From:</label>
+    <input type="date" class="exp-from">
+    <label>To:</label>
+    <input type="date" class="exp-to"> `;
+  parent.appendChild(enfant);
+} 
+
 function afficherMembres() {
   const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
   const container = document.querySelector(".containermembre");
@@ -144,9 +163,10 @@ function modifiermembre(id){
     document.getElementById("number").value = membre.telephone;
     photoPreview.src = `${membre.image}`;
     formulaire.setAttribute("index-edit", id);
-
- 
 }
+
+
+
 
 
 
