@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+
+    <title>Workspace</title>
+  </head>
+  <body>
+      <div class="modaldisponible closes">
+      </div>
+    <div class="formmodal closes">
+      <div class="close" onclick="closemodal()">X</div>
+
+      <form action="" id="form-member">
+        <h2 class="modal-title">Add Worker</h2>
+
+        <label for="nom">Name:</label>
+        <input type="text" id="nom" class="nom" placeholder="Enter name" />
+
+        <label for="roles">Role:</label>
+        <select name="roles" id="roles" class="roles">
+          <option value="Réceptionniste" data-zone="reception">Receptionist</option>
+          <option value="Technicien IT" data-zone="server">IT Technician</option>
+          <option value="Agent de sécurité" data-zone="security">Security Agent</option>
+          <option value="Manager">Manager</option>
+          <option value="Netoyage">Cleaning</option>
+          <option value="Autre">Other</option>
+        </select>
+
+        <label for="image">Photo (URL):</label>
+        <input
+          type="url"
+          id="image"
+          class="image"
+          placeholder="https://example.com/photo.jpg"
+          oninput="updateimg()"
+        />
+
+        <img src="./defaultimg.png" class="photo-preview" id="photoPreview" />
+    
+
+        <div id="experience-container"></div>
+
+        <button
+          type="button"
+          id="add-exp"
+          class="add-exp-btn"
+          onclick="ajoutexperience()"
+        >
+          Add Experience
+        </button>
+
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          class="email"
+          placeholder="example@mail.com"
+        />
+
+        <label for="number">Phone:</label>
+        <input
+          type="tel"
+          id="number"
+          class="number"
+          placeholder="+1 235 123 4567"
+        />
+
+        <button id="ajout" type="submit" class="submit-btn">
+          <b>Add Worker</b>
+        </button>
+      </form>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
