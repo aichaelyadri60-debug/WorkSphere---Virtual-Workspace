@@ -128,6 +128,11 @@ function ajoutexperience() {
   parent.appendChild(enfant);
 } 
 
+function sumpression(element) {
+  const parent = element.closest(".experience-block");
+  parent.remove();
+}
+
 function afficherMembres() {
   const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
   const container = document.querySelector(".containermembre");
