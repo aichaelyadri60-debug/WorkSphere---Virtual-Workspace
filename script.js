@@ -108,3 +108,27 @@ formulaire.addEventListener("submit", (e) => {
 
   afficherMembres();
 });
+
+function afficherMembres() {
+  const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
+  const container = document.querySelector(".containermembre");
+  const titre = document.querySelector(".titre");
+  container.textContent = "";
+
+  membres.forEach(m => {
+    if (!m.assignedZone) {  
+      container.innerHTML += `
+        <div class="membre" data-id="${m.id}">
+          <div class="membre-photo" style="background-image: url('${m.image}');"></div>
+          <div class="membre-info">
+            <p><b>Nom :</b> ${m.name}</p>
+            <p><b>Role :</b> ${m.role}</p>
+          </div>
+          <button class="edit-btn" onclick="modifiermembre(${m.id})">Modifier</button>
+        </div>
+      `;
+    }
+
+    titre.textContent = "";
+  });
+}
