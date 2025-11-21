@@ -119,6 +119,23 @@
       </div>
 
     </main>
+    <aside>
+      <div class="controls">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search by name..."
+          class="search-input"
+          oninput="rechercheparnom()"
+        />
+      </div>
+
+      <div class="containermembre"></div>
+      <h1 style="color: rgb(42, 42, 42)" class="titre">aucun members</h1>
+      <button id="addnewmember-btn" onclick="ajout()">
+        Add a new member +
+      </button>
+    </aside>
 
     <script src="script.js"></script>
   </body>
