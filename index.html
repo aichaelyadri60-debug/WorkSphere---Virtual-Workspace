@@ -8,6 +8,69 @@
     <title>Workspace</title>
   </head>
   <body>
+    <aside>
+      <div class="controls">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search by name..."
+          class="search-input"
+          oninput="rechercheparnom()"
+        />
+      </div>
+
+      <div class="containermembre"></div>
+      <h1 style="color: rgb(42, 42, 42)" class="titre">aucun members</h1>
+      <button id="addnewmember-btn" onclick="ajout()">
+        Add a new member +
+      </button>
+    </aside>
+    <main>
+      <div class="conference box" data-zone="conference" >
+        <div class="content">
+
+        </div>
+        <h2>Salle de conférence</h2>
+        <button class="plus" onclick="membredisponible('conference')"> + </button>
+      </div>
+      <div class=" emptyy" ></div>
+      <div class=" emptyx" ></div>
+      <div class="reception box" data-zone="reception">
+      <h2>Réception</h2><div class="content">
+
+        </div>
+        <button class="plus" onclick="membredisponible('reception')"> + </button>
+      </div>
+      <div class="server box" data-zone="server">
+        <h2>Salle des serveurs</h2>
+                <div class="content">
+
+        </div>
+        <button class="plus" onclick="membredisponible('server')">+</button>
+      </div>
+      <div class="security box" data-zone="security">
+        <h2>Salle de sécurité</h2>
+        <div class="content">
+
+        </div>
+        <button class="plus" onclick="membredisponible('security')">+</button>
+      </div>
+      <div class="staffroom box" data-zone="staffroom">
+        <h2>Salle du personnel</h2>
+        <div class="content">
+
+        </div>
+        <button class="plus" onclick="membredisponible('staffroom')">+</button>
+      </div>
+      <div class="archive box" data-zone="archive">
+        <h2>Salle d’archives</h2>
+        <div class="content">
+
+        </div>
+        <button class="plus" onclick="membredisponible('archive')">+</button>
+      </div>
+
+    </main>
       <div class="modaldisponible closes">
       </div>
     <div class="formmodal closes">
@@ -73,69 +136,6 @@
         </button>
       </form>
     </div>
-    <main>
-      <div class="conference box" data-zone="conference" >
-        <div class="content">
-
-        </div>
-        <h2>Salle de conférence</h2>
-        <button class="plus" onclick="membredisponible('conference')"> + </button>
-      </div>
-      <div class=" emptyy" ></div>
-      <div class=" emptyx" ></div>
-      <div class="reception box" data-zone="reception">
-      <h2>Réception</h2><div class="content">
-
-        </div>
-        <button class="plus" onclick="membredisponible('reception')"> + </button>
-      </div>
-      <div class="server box" data-zone="server">
-        <h2>Salle des serveurs</h2>
-                <div class="content">
-
-        </div>
-        <button class="plus" onclick="membredisponible('server')">+</button>
-      </div>
-      <div class="security box" data-zone="security">
-        <h2>Salle de sécurité</h2>
-        <div class="content">
-
-        </div>
-        <button class="plus" onclick="membredisponible('security')">+</button>
-      </div>
-      <div class="staffroom box" data-zone="staffroom">
-        <h2>Salle du personnel</h2>
-        <div class="content">
-
-        </div>
-        <button class="plus" onclick="membredisponible('staffroom')">+</button>
-      </div>
-      <div class="archive box" data-zone="archive">
-        <h2>Salle d’archives</h2>
-        <div class="content">
-
-        </div>
-        <button class="plus" onclick="membredisponible('archive')">+</button>
-      </div>
-
-    </main>
-    <aside>
-      <div class="controls">
-        <input
-          type="text"
-          id="searchInput"
-          placeholder="Search by name..."
-          class="search-input"
-          oninput="rechercheparnom()"
-        />
-      </div>
-
-      <div class="containermembre"></div>
-      <h1 style="color: rgb(42, 42, 42)" class="titre">aucun members</h1>
-      <button id="addnewmember-btn" onclick="ajout()">
-        Add a new member +
-      </button>
-    </aside>
 
     <script src="script.js"></script>
   </body>
