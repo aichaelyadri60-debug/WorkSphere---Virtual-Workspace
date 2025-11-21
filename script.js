@@ -171,6 +171,31 @@ function modifiermembre(id){
 }
 
 
+function rechercheparnom() {
+  const data = JSON.parse(localStorage.getItem("lesmembres")) || [];
+  let input = document.getElementById("searchInput").value.toLowerCase();
+  const container = document.querySelector(".containermembre");
+  container.textContent = "";
+  data.forEach((e, index) => {
+    if (e.name.toLowerCase().includes(input)) {
+      container.innerHTML += `
+            <div class="membre">
+                <div class="membre-photo" 
+                    style="background-image: url('${e.image}');"></div>
+
+                <div class="membre-info">
+                    <p><b>Nom :</b> <span>${e.name}</span></p>
+                    <p><b>Role :</b> <span>${e.role}</span></p>
+                </div>
+
+                <button class="edit-btn" onclick="modifiermembre(${index})">
+                    Modifier
+                </button>
+            </div>
+        `;
+    }
+  });
+}
 
 
 
