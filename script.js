@@ -15,7 +15,6 @@ formulaire.addEventListener("submit", (e) => {
   const email = document.getElementById("email");
   const tele = document.getElementById("number");
 
-
   const rgxemail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const rgxtele = /^0[5-7]\d{8}$/;
 
@@ -27,11 +26,10 @@ formulaire.addEventListener("submit", (e) => {
   if (!tele.value.trim()) return alert("Téléphone obligatoire !");
   if (!rgxtele.test(tele.value)) return alert("Numéro marocain invalide !");
 
-
   const experience = [];
   const parent = document.querySelectorAll(".experience-block");
 
-  let erreurExperience = false; 
+  let erreurExperience = false;
 
   if (parent.length > 0) {
     parent.forEach((element, index) => {
@@ -48,7 +46,7 @@ formulaire.addEventListener("submit", (e) => {
       ) {
         alert("Tous les champs des expériences sont obligatoires !");
         erreurExperience = true;
-        return; 
+        return;
       }
 
       const debut = new Date(datedebut.value);
@@ -59,7 +57,6 @@ formulaire.addEventListener("submit", (e) => {
         erreurExperience = true;
         return;
       }
-
 
       experience.push({
         id: index + 1,
@@ -72,7 +69,7 @@ formulaire.addEventListener("submit", (e) => {
   }
 
   if (erreurExperience) {
-    return; 
+    return;
   }
 
   let nextId;
@@ -80,7 +77,7 @@ formulaire.addEventListener("submit", (e) => {
   let membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
 
   if (attr != null) {
-    nextId = membres[attr].id; 
+    nextId = membres[attr].id;
   } else {
     nextId = membres.length > 0 ? membres[membres.length - 1].id + 1 : 1;
   }
@@ -109,8 +106,6 @@ formulaire.addEventListener("submit", (e) => {
   afficherMembres();
 });
 
-
-
 function ajoutexperience() {
   let parent = document.querySelector("#experience-container");
   let enfant = document.createElement("div");
@@ -126,7 +121,7 @@ function ajoutexperience() {
     <label>To:</label>
     <input type="date" class="exp-to"> `;
   parent.appendChild(enfant);
-} 
+}
 
 function sumpression(element) {
   const parent = element.closest(".experience-block");
@@ -139,8 +134,8 @@ function afficherMembres() {
   const titre = document.querySelector(".titre");
   container.textContent = "";
 
-  membres.forEach(m => {
-    if (!m.assignedZone) {  
+  membres.forEach((m) => {
+    if (!m.assignedZone) {
       container.innerHTML += `
         <div class="membre" data-id="${m.id}">
           <div class="membre-photo" style="background-image: url('${m.image}');"></div>
@@ -157,19 +152,18 @@ function afficherMembres() {
   });
 }
 
-function modifiermembre(id){
-   ajout();
-    const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
-    const membre =membres[id];
-    document.getElementById("nom").value = membre.name;
-    document.getElementById("roles").value = membre.role;
-    document.getElementById("image").value = membre.image;
-    document.getElementById("email").value = membre.email;
-    document.getElementById("number").value = membre.telephone;
-    photoPreview.src = `${membre.image}`;
-    formulaire.setAttribute("index-edit", id);
+function modifiermembre(id) {
+  ajout();
+  const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
+  const membre = membres[id];
+  document.getElementById("nom").value = membre.name;
+  document.getElementById("roles").value = membre.role;
+  document.getElementById("image").value = membre.image;
+  document.getElementById("email").value = membre.email;
+  document.getElementById("number").value = membre.telephone;
+  photoPreview.src = `${membre.image}`;
+  formulaire.setAttribute("index-edit", id);
 }
-
 
 function rechercheparnom() {
   const data = JSON.parse(localStorage.getItem("lesmembres")) || [];
@@ -182,12 +176,10 @@ function rechercheparnom() {
             <div class="membre">
                 <div class="membre-photo" 
                     style="background-image: url('${e.image}');"></div>
-
                 <div class="membre-info">
                     <p><b>Nom :</b> <span>${e.name}</span></p>
                     <p><b>Role :</b> <span>${e.role}</span></p>
                 </div>
-
                 <button class="edit-btn" onclick="modifiermembre(${index})">
                     Modifier
                 </button>
@@ -197,9 +189,61 @@ function rechercheparnom() {
   });
 }
 
+const accessRules = {
+  Réceptionniste: ["reception"],
+  "Technicien IT": ["server"],
+  "Agent de sécurité": ["security"],
+  Manager: [
+    "conference",
+    "reception",
+    "server",
+    "security",
+    "staffroom",
+    "archive",
+  ],
+  Netoyage: ["conference", "reception", "server", "security", "staffroom"],
+  Autre: ["conference", "reception", "server", "security", "staffroom"],
+};
 
-
-
-window.onload=function(){
-  afficherMembres()
+function membredisponible(zone) {
+  const data = JSON.parse(localStorage.getItem("lesmembres")) || [];
+  const Roles = [];
+  for (let role in accessRules) {
+    if (accessRules[role].includes(zone)) {
+      Roles.push(role);
+    }
+  }
+  const filtres = data.filter((m) => {
+    Roles.includes(m.role) && !m.assignedZone;
+  });
+  afficherModalSelection(filtres, zone);
 }
+
+function afficherModalSelection(filtres, zone) {
+  const modal = document.querySelector(".modaldisponible");
+  if (filtres.length === 0) {
+    modal.innerHTML = `<div class="close" onclick="closemodal1()">X</div>
+            <h2>Aucun membre autorisé pour cette zone</h2>`;
+    modal.classList.remove("closes");
+    return;
+  }
+  modal.innerHTML = `<div class="close" onclick="closemodal1()">X</div>
+            <h2>Choisir un membre pour : ${zone}</h2>`;
+  filtres.forEach((m) => {
+    modal.innerHTML += `<div class="listemodal"> 
+                    <div class="itemmembre" onclick='detailemembre(${m.id} , "${zone}")'>
+                        <img src="${m.image}" class="avatar"/>
+                        <div>
+                            <p><b>${m.name}</b></p>
+                            <h4>${m.role}</h4>
+                        </div>
+                    </div>
+                
+`;
+modal.classList.remove("closes");
+  });
+}
+
+window.onload = function () {
+  afficherMembres();
+};
