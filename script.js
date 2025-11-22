@@ -293,11 +293,11 @@ function detailemembre(id, zone) {
 
 function ajoutdanszone(zone, id) {
   const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
-  const zone = document.querySelector(`[data-zone ="${zone}"]`);
+  const zoneDiv = document.querySelector(`[data-zone ="${zone}"]`);
   const membre = membres.find((m) => {
     m.id === id;
   });
-  const enfant = zone.querySelector(".content");
+  const enfant = zoneDiv.querySelector(".content");
   enfant.innerHTML += `
     <div class="assigned-member" data-id="${membre.id}">
       <button onclick="removemembre(${membre.id}, '${zone}')" class="removemembre">X</button>
@@ -308,15 +308,33 @@ function ajoutdanszone(zone, id) {
       </div>
     </div>
   `;
-
   membre.assignedZone = zone;
-  localStorage.setItem("lesmembres",JSON.stringify(membres));
-   afficherMembres();
-     membredisponible(zone);
+  localStorage.setItem("lesmembres", JSON.stringify(membres));
+  afficherMembres();
+  membredisponible(zone);
   closemodal1();
   zoneenrouge();
 }
 
+function removemembre(id, zone) {
+  const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
+  let membre = membres.find((m) => m.id === id);
+  if (!membre) return;
+  const zoneDiv = document.querySelector(`[data-zone="${zone}"]`);
+  const assigned = zoneDiv.querySelector(`.assigned-member[data-id="${id}"]`);
+  if (assigned) assigned.remove();
+  membre.assigned = null;
+  localStorage.setItem("lesmembres", JSON.stringify(membres));
+  afficherMembres();
+}
+
+
+function closemodal1() {
+  document.querySelector(".modaldisponible").classList.add("closes");
+}
 window.onload = function () {
   afficherMembres();
+  //  membredisponible(zone);
+  // closemodal1();
+  // zoneenrouge()
 };
