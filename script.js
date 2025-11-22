@@ -1,3 +1,31 @@
+const imageInput = document.getElementById("image");
+const photoPreview = document.getElementById("photoPreview");
+function loadimg(src){
+  const img =document.createElement("img")
+ return  new Promise ((reject ,resolve)=>{
+    img.src =src;
+    img.onload =resolve;
+    img.onerror =reject;
+  })
+}
+function updateimg(){
+  const defaultimg = "./defaultimg.png";
+  loadimg(imageInput)
+  .then (()=>{
+    photoPreview.src =imageInput.value;
+  })
+  .catch(()=>{
+    loadimg(defaultimg)
+    .then(()=>{
+      photoPreview.src =defaultimg ;
+    });
+  });
+}
+
+
+
+
+
 function ajout() {
   document.querySelector(".formmodal").classList.remove("closes");
 }
@@ -383,7 +411,7 @@ function closemodal1() {
 }
 window.onload = function () {
   afficherMembres();
-  //  membredisponible(zone);
-  // closemodal1();
-  // zoneenrouge()
+  afficherZones()
+
+
 };
