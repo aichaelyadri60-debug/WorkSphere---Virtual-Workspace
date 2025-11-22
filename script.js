@@ -326,7 +326,34 @@ function removemembre(id, zone) {
   membre.assigned = null;
   localStorage.setItem("lesmembres", JSON.stringify(membres));
   afficherMembres();
+    membredisponible(zone);
+    closemodal1();
+    zoneenrouge()
 }
+
+
+function afficherZones() {
+  const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
+  membres.forEach((m) => {
+    if (m.assignedZone) {
+      const zoneDiv = document.querySelector(`[data-zone="${m.assignedZone}"]`);
+      const enfant = zoneDiv.querySelector(".content");
+      enfant.innerHTML += `
+    <div class="assigned-member" data-id="${membre.id}">
+      <button onclick="removemembre(${membre.id}, '${zone}')" class="removemembre">X</button>
+      <img src="${membre.image}" class="avatar-zone">
+      <div class="contenumembre">
+        <p>${membre.name}</p>
+        <p>${membre.role}</p>
+      </div>
+    </div>
+  `;
+    }
+    zoneenrouge();
+  });
+}
+
+
 
 
 function closemodal1() {
