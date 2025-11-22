@@ -1,5 +1,7 @@
 const imageInput = document.getElementById("image");
 const photoPreview = document.getElementById("photoPreview");
+// console.log(photoPreview);
+// console.log(imageInput);
 function loadimg(src){
   const img =document.createElement("img")
  return  new Promise ((resolve , reject )=>{
@@ -10,7 +12,7 @@ function loadimg(src){
 }
 function updateimg(){
   const defaultimg = "./defaultimg.png";
-  loadimg(imageInput)
+  loadimg(imageInput.value)
   .then (()=>{
     photoPreview.src =imageInput.value;
   })
@@ -180,10 +182,11 @@ function afficherMembres() {
   });
 }
 
-function modifiermembre(id) {
+function modifiermembre(id){
   ajout();
   const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
-  const membre = membres[id];
+  
+  const membre = membres.find((m)=>m.id === id);
   document.getElementById("nom").value = membre.name;
   document.getElementById("roles").value = membre.role;
   document.getElementById("image").value = membre.image;
@@ -329,14 +332,13 @@ function ajoutdanszone(zone, id) {
     m.id === id
   );
   // console.log(membre)
-  if(!membre){return }
   const enfant = zoneDiv.querySelector(".content");
   enfant.innerHTML += `
     <div class="assigned-member" data-id="${id}">
       <button onclick="removemembre(${id}, '${zone}')" class="removemembre">X</button>
       <img src="${membre.image}" class="avatar-zone">
       <div class="contenumembre">
-        <p>${membre.name}</p>
+        <p><strong>${membre.name}</strong></p>
         <p>${membre.role}</p>
       </div>
     </div>
@@ -388,7 +390,7 @@ function afficherZones() {
       <button onclick="removemembre(${m.id}, '${m.assignedZone}')" class="removemembre">X</button>
       <img src="${m.image}" class="avatar-zone">
       <div class="contenumembre">
-        <p>${m.name}</p>
+        <p ><strong>${m.name}</strong></p>
         <p>${m.role}</p>
       </div>
     </div>
