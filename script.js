@@ -244,6 +244,54 @@ modal.classList.remove("closes");
   });
 }
 
+
+function detailemembre(id ,zone ){
+  const modal = document.querySelector(".modaldisponible");
+  const data = JSON.parse(localStorage.getItem("lesmembres")) || [];
+  let membre = data.find((m) => m.id === id);
+  if (!membre) return;
+  let experienceHTML ="";
+  if (membre.experience && membre.experience.length > 0) {
+    membre.experience.forEach((exp) => {
+      experienceHTML += `
+        <div class="exp-item">
+            <p><b>Company :</b> ${exp.company}</p>
+            <p><b>Role :</b> ${exp.company_role}</p>
+            <p><b>De :</b> ${exp.datedebut}</p>
+            <p><b>À :</b> ${exp.datefin}</p>
+        </div>
+      `;
+    });
+  } 
+
+   modal.innerHTML = `
+        <div class="close" onclick="closemodal1()">X</div>
+        <h2>Détails du membre</h2>
+
+        <div class="detail-box">
+            <img src="${membre.image}" class="avatar-big" />
+
+            <div class="detail-info">
+                <p><b>Nom:</b> ${membre.name}</p>
+                <p><b>Role:</b> ${membre.role}</p>
+                <p><b>Email:</b> ${membre.email}</p>
+                <p><b>Téléphone:</b> ${membre.telephone}</p>
+            </div>
+
+            <h3>Expérience professionnelle</h3>
+            <div class="experience-list">
+                ${experienceHTML}
+            </div>
+
+            <button class="assign-btn" onclick='ajoutdanszone("${zone}", ${membre.id})'>
+                Ajouter dans la zone
+            </button>
+        </div>
+    `;
+
+  modal.classList.remove("closes");
+}
+
 window.onload = function () {
   afficherMembres();
 };
