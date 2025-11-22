@@ -240,17 +240,16 @@ function afficherModalSelection(filtres, zone) {
                     </div>
                 
 `;
-modal.classList.remove("closes");
+    modal.classList.remove("closes");
   });
 }
 
-
-function detailemembre(id ,zone ){
+function detailemembre(id, zone) {
   const modal = document.querySelector(".modaldisponible");
   const data = JSON.parse(localStorage.getItem("lesmembres")) || [];
   let membre = data.find((m) => m.id === id);
   if (!membre) return;
-  let experienceHTML ="";
+  let experienceHTML = "";
   if (membre.experience && membre.experience.length > 0) {
     membre.experience.forEach((exp) => {
       experienceHTML += `
@@ -262,9 +261,9 @@ function detailemembre(id ,zone ){
         </div>
       `;
     });
-  } 
+  }
 
-   modal.innerHTML = `
+  modal.innerHTML = `
         <div class="close" onclick="closemodal1()">X</div>
         <h2>Détails du membre</h2>
 
@@ -290,6 +289,32 @@ function detailemembre(id ,zone ){
     `;
 
   modal.classList.remove("closes");
+}
+
+function ajoutdanszone(zone, id) {
+  const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
+  const zone = document.querySelector(`[data-zone ="${zone}"]`);
+  const membre = membres.find((m) => {
+    m.id === id;
+  });
+  const enfant = zone.querySelector(".content");
+  enfant.innerHTML += `
+    <div class="assigned-member" data-id="${membre.id}">
+      <button onclick="removemembre(${membre.id}, '${zone}')" class="removemembre">X</button>
+      <img src="${membre.image}" class="avatar-zone">
+      <div class="contenumembre">
+        <p>${membre.name}</p>
+        <p>${membre.role}</p>
+      </div>
+    </div>
+  `;
+
+  membre.assignedZone = zone;
+  localStorage.setItem("lesmembres",JSON.stringify(membres));
+   afficherMembres();
+     membredisponible(zone);
+  closemodal1();
+  zoneenrouge();
 }
 
 window.onload = function () {
