@@ -355,6 +355,28 @@ function afficherZones() {
 
 
 
+function zoneenrouge(){
+   const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
+   const leszones = document.querySelectorAll(".box");
+   leszones.forEach(zone => {
+    const zoneattribute = zone.getAttribute("data-zone");
+    let occupe = false;
+    membres.forEach(membre => {
+      if (membre.assignedZone === zoneattribute) {
+        occupe = true;
+      }
+    });
+
+    if (occupe) {
+      zone.style.backgroundColor = "rgba(209, 225, 209, 0.3)"; 
+    } else {
+      zone.style.backgroundColor = "rgba(255, 0, 0, 0.3)";  
+    }
+  });
+}
+
+
+
 
 function closemodal1() {
   document.querySelector(".modaldisponible").classList.add("closes");
