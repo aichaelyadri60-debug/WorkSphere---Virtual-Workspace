@@ -2,7 +2,7 @@ const imageInput = document.getElementById("image");
 const photoPreview = document.getElementById("photoPreview");
 function loadimg(src){
   const img =document.createElement("img")
- return  new Promise ((reject ,resolve)=>{
+ return  new Promise ((resolve , reject )=>{
     img.src =src;
     img.onload =resolve;
     img.onerror =reject;
@@ -46,13 +46,13 @@ formulaire.addEventListener("submit", (e) => {
   const rgxemail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const rgxtele = /^0[5-7]\d{8}$/;
 
-  if (!nom.value.trim()) return alert("Le nom est obligatoire !");
-  if (!role.value.trim()) return alert("Le rôle est obligatoire !");
-  if (!image.value.trim()) return alert("La photo est obligatoire !");
-  if (!email.value.trim()) return alert("L'email est obligatoire !");
-  if (!rgxemail.test(email.value)) return alert("Email invalide !");
-  if (!tele.value.trim()) return alert("Téléphone obligatoire !");
-  if (!rgxtele.test(tele.value)) return alert("Numéro marocain invalide !");
+  if (!nom.value.trim()) return alert(" nom est obligatoire ");
+  if (!role.value.trim()) return alert("Le role est obligatoire ");
+  if (!image.value.trim()) return alert("La photo est obligatoire ");
+  if (!email.value.trim()) return alert("L'email est obligatoire ");
+  if (!rgxemail.test(email.value)) return alert("Email invalide ");
+  if (!tele.value.trim()) return alert("telephone obligatoire ");
+  if (!rgxtele.test(tele.value)) return alert("Numero marocain  ");
 
   const experience = [];
   const parent = document.querySelectorAll(".experience-block");
@@ -241,9 +241,9 @@ function membredisponible(zone) {
       Roles.push(role);
     }
   }
-  const filtres = data.filter((m) => {
-    Roles.includes(m.role) && !m.assignedZone;
-  });
+  const filtres = data.filter((m) => 
+     Roles.includes(m.role) && !m.assignedZone
+  );
   afficherModalSelection(filtres, zone);
 }
 
@@ -255,21 +255,23 @@ function afficherModalSelection(filtres, zone) {
     modal.classList.remove("closes");
     return;
   }
-  modal.innerHTML = `<div class="close" onclick="closemodal1()">X</div>
-            <h2>Choisir un membre pour : ${zone}</h2>`;
-  filtres.forEach((m) => {
-    modal.innerHTML += `<div class="listemodal"> 
-                    <div class="itemmembre" onclick='detailemembre(${m.id} , "${zone}")'>
-                        <img src="${m.image}" class="avatar"/>
-                        <div>
-                            <p><b>${m.name}</b></p>
-                            <h4>${m.role}</h4>
-                        </div>
-                    </div>
-                
-`;
-    modal.classList.remove("closes");
-  });
+    modal.innerHTML = `<div class="close" onclick="closemodal1()">X</div>
+              <h2>Choisir un membre pour : ${zone}</h2>`;
+    filtres.forEach((m) => {
+      modal.innerHTML += `<div class="listemodal"> 
+                      <div class="itemmembre" onclick='detailemembre(${m.id} , "${zone}")'>
+                          <img src="${m.image}" class="avatar"/>
+                          <div>
+                              <p><b>${m.name}</b></p>
+                              <h4>${m.role}</h4>
+                          </div>
+                      </div>
+                  
+  `;
+      modal.classList.remove("closes");
+
+    });
+  
 }
 
 function detailemembre(id, zone) {
@@ -321,14 +323,17 @@ function detailemembre(id, zone) {
 
 function ajoutdanszone(zone, id) {
   const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
+  // console.log(membres)
   const zoneDiv = document.querySelector(`[data-zone ="${zone}"]`);
-  const membre = membres.find((m) => {
-    m.id === id;
-  });
+  const membre = membres.find((m) => 
+    m.id === id
+  );
+  // console.log(membre)
+  if(!membre){return }
   const enfant = zoneDiv.querySelector(".content");
   enfant.innerHTML += `
-    <div class="assigned-member" data-id="${membre.id}">
-      <button onclick="removemembre(${membre.id}, '${zone}')" class="removemembre">X</button>
+    <div class="assigned-member" data-id="${id}">
+      <button onclick="removemembre(${id}, '${zone}')" class="removemembre">X</button>
       <img src="${membre.image}" class="avatar-zone">
       <div class="contenumembre">
         <p>${membre.name}</p>
@@ -351,9 +356,21 @@ function removemembre(id, zone) {
   const zoneDiv = document.querySelector(`[data-zone="${zone}"]`);
   const assigned = zoneDiv.querySelector(`.assigned-member[data-id="${id}"]`);
   if (assigned) assigned.remove();
-  membre.assigned = null;
-  localStorage.setItem("lesmembres", JSON.stringify(membres));
-  afficherMembres();
+
+const container = document.querySelector(".containermembre");
+  container.innerHTML += `
+    <div class="membre" data-id="${membre.id}">
+      <div class="membre-photo" style="background-image: url('${membre.image}');"></div>
+      <div class="membre-info">
+        <p><b>Nom :</b> ${membre.name}</p>
+        <p><b>Role :</b> ${membre.role}</p>
+      </div>
+      <button class="edit-btn" onclick="modifiermembre(${membre.id})">Modifier</button>
+    </div>
+  `;
+    membre.assignedZone = null;
+    localStorage.setItem("lesmembres", JSON.stringify(membres));
+
     membredisponible(zone);
     closemodal1();
     zoneenrouge()
@@ -367,12 +384,12 @@ function afficherZones() {
       const zoneDiv = document.querySelector(`[data-zone="${m.assignedZone}"]`);
       const enfant = zoneDiv.querySelector(".content");
       enfant.innerHTML += `
-    <div class="assigned-member" data-id="${membre.id}">
-      <button onclick="removemembre(${membre.id}, '${zone}')" class="removemembre">X</button>
-      <img src="${membre.image}" class="avatar-zone">
+    <div class="assigned-member" data-id="${m.id}">
+      <button onclick="removemembre(${m.id}, '${m.assignedZone}')" class="removemembre">X</button>
+      <img src="${m.image}" class="avatar-zone">
       <div class="contenumembre">
-        <p>${membre.name}</p>
-        <p>${membre.role}</p>
+        <p>${m.name}</p>
+        <p>${m.role}</p>
       </div>
     </div>
   `;
