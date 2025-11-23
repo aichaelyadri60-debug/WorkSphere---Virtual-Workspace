@@ -97,25 +97,7 @@ main {
   flex-direction: column;
 }
 
-/* .assigned-member {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px;
-    background-color: white;
-    border: 1px solid #888;
-    border-radius: 10px;
-    font-size: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-} 
 
-
- .avatar-zone {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    object-fit: cover;
-} */
 
 .plus {
   width: 40px;
@@ -307,6 +289,7 @@ form select {
   border-radius: 12px;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
   border-left: 4px solid #394aa6;
+  cursor: pointer;
 }
 
 .membre-photo {
@@ -420,32 +403,22 @@ form select {
   align-items: center;
   position: relative;
   gap: 10px;
-}
-
-.assigned-member {
-  display: flex;
-  align-items: center;
-  gap: 8px;
   padding: 8px;
   background-color: white;
   border: 1px solid #888;
   border-radius: 10px;
   font-size: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-.avatar-zone {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-.avatar-zone {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  object-fit: cover;
+
 }
 
+.avatar-zone {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+    cursor: pointer;
+}
 .removemembre {
   position: absolute;
   top: -8px;

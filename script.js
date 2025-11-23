@@ -28,11 +28,9 @@ function updateimg() {
     });
 }
 
-
 function ajout() {
   document.querySelector(".formmodal").classList.remove("closes");
 }
-
 
 let formulaire = document.querySelector("form");
 formulaire.addEventListener("submit", (e) => {
@@ -144,7 +142,6 @@ function closemodal() {
   formulaire.reset();
 }
 
-
 function ajoutexperience() {
   let parent = document.querySelector("#experience-container");
   let enfant = document.createElement("div");
@@ -176,7 +173,7 @@ function afficherMembres() {
   membres.forEach((m) => {
     if (!m.assignedZone) {
       container.innerHTML += `
-        <div class="membre" data-id="${m.id}">
+        <div class="membre" data-id="${m.id}" onclick="detailemembre(${m.id}, null)">
           <div class="membre-photo" style="background-image: url('${m.image}');"></div>
           <div class="membre-info">
             <p><b>Nom :</b> ${m.name}</p>
@@ -213,7 +210,7 @@ function rechercheparnom() {
   let input = document.getElementById("searchInput").value.toLowerCase();
   const container = document.querySelector(".containermembre");
   container.textContent = "";
-  data.forEach((e, index) => {
+  data.forEach((e) => {
     if (e.name.toLowerCase().includes(input)) {
       container.innerHTML += `
             <div class="membre" data-id="${e.id}">
@@ -290,6 +287,7 @@ function detailemembre(id, zone) {
   const data = JSON.parse(localStorage.getItem("lesmembres")) || [];
   let membre = data.find((m) => m.id === id);
   if (!membre) return;
+
   let experienceHTML = "";
   if (membre.experience && membre.experience.length > 0) {
     membre.experience.forEach((exp) => {
@@ -302,6 +300,26 @@ function detailemembre(id, zone) {
         </div>
       `;
     });
+  }
+
+  let boutonAction = "";
+
+  if (!zone) {
+    boutonAction = "";
+  } 
+  else if (membre.assignedZone === zone) {
+    boutonAction = `
+      <button class="assign-btn" onclick='removemembre(${membre.id}, "${zone}")'>
+        Retirer de la zone
+      </button>
+    `;
+  } 
+  else if (!membre.assignedZone) {
+    boutonAction = `
+      <button class="assign-btn" onclick='ajoutdanszone("${zone}", ${membre.id})'>
+        Ajouter dans cette zone
+      </button>
+    `;
   }
 
   modal.innerHTML = `
@@ -323,14 +341,13 @@ function detailemembre(id, zone) {
                 ${experienceHTML}
             </div>
 
-            <button class="assign-btn" onclick='ajoutdanszone("${zone}", ${membre.id})'>
-                Ajouter dans la zone
-            </button>
+            ${boutonAction}
         </div>
     `;
 
   modal.classList.remove("closes");
 }
+
 
 function ajoutdanszone(zone, id) {
   const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
@@ -340,9 +357,10 @@ function ajoutdanszone(zone, id) {
   // console.log(membre)
   const enfant = zoneDiv.querySelector(".content");
   enfant.innerHTML += `
-    <div class="assigned-member" data-id="${id}">
+    <div class="assigned-member" data-id="${membre.id}"  >
+
       <button onclick="removemembre(${id}, '${zone}')" class="removemembre">X</button>
-      <img src="${membre.image}" class="avatar-zone">
+      <img src="${membre.image}" class="avatar-zone" onclick="detailemembre(${membre.id}, '${zone}')">
       <div class="contenumembre">
         <p><strong>${membre.name}</strong></p>
         <p>${membre.role}</p>
@@ -391,7 +409,7 @@ function afficherZones() {
       const zoneDiv = document.querySelector(`[data-zone="${m.assignedZone}"]`);
       const enfant = zoneDiv.querySelector(".content");
       enfant.innerHTML += `
-    <div class="assigned-member" data-id="${m.id}">
+   <div class="assigned-member" data-id="${m.id}" onclick="detailemembre(${m.id}, '${m.assignedZone}')">
       <button onclick="removemembre(${m.id}, '${m.assignedZone}')" class="removemembre">X</button>
       <img src="${m.image}" class="avatar-zone">
       <div class="contenumembre">
