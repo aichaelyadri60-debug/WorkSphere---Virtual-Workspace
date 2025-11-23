@@ -2,38 +2,37 @@ const imageInput = document.getElementById("image");
 const photoPreview = document.getElementById("photoPreview");
 // console.log(photoPreview);
 // console.log(imageInput);
-function loadimg(src){
-  const img =document.createElement("img")
- return  new Promise ((resolve , reject )=>{
-    img.src =src;
-    img.onload =resolve;
-    img.onerror =reject;
-  })
-}
-function updateimg(){
-  const defaultimg = "./defaultimg.png";
-  loadimg(imageInput.value)
-  .then (()=>{
-    photoPreview.src =imageInput.value;
-  })
-  .catch(()=>{
-    loadimg(defaultimg)
-    .then(()=>{
-      photoPreview.src =defaultimg ;
-    });
+function loadimg(src) {
+  const img = document.createElement("img");
+  return new Promise((resolve, reject) => {
+    img.src = src;
+    img.onload = resolve;
+    img.onerror = reject;
   });
 }
+function updateimg() {
+  const url = imageInput.value.trim();
+  const defaultimg = "./defaultimg.png";
 
+  if (!url) {
+    photoPreview.src = defaultimg;
+    return;
+  }
 
-
+  loadimg(url)
+    .then(() => {
+      photoPreview.src = url;
+    })
+    .catch(() => {
+      photoPreview.src = defaultimg;
+    });
+}
 
 
 function ajout() {
   document.querySelector(".formmodal").classList.remove("closes");
 }
-function closemodal() {
-  document.querySelector(".formmodal").classList.add("closes");
-}
+
 
 let formulaire = document.querySelector("form");
 formulaire.addEventListener("submit", (e) => {
@@ -122,19 +121,29 @@ formulaire.addEventListener("submit", (e) => {
     experience,
   };
 
+  const titre = document.querySelector(".modal-title");
+  const boutton = document.querySelector(".submit-btn > b");
+
   if (attr != null) {
     membres[attr] = Membre;
     formulaire.removeAttribute("index-edit");
+    boutton.textContent = "Add Worker";
+    titre.textContent = "Add Worker";
   } else {
     membres.push(Membre);
   }
   localStorage.setItem("lesmembres", JSON.stringify(membres));
-
   formulaire.reset();
   document.querySelector(".formmodal").classList.add("closes");
 
   afficherMembres();
 });
+
+function closemodal() {
+  document.querySelector(".formmodal").classList.add("closes");
+  formulaire.reset();
+}
+
 
 function ajoutexperience() {
   let parent = document.querySelector("#experience-container");
@@ -177,23 +186,26 @@ function afficherMembres() {
         </div>
       `;
     }
-
-    titre.textContent = "";
   });
+  titre.textContent = "";
 }
 
-function modifiermembre(id){
+function modifiermembre(id) {
   ajout();
   const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
-  
-  const membre = membres.find((m)=>m.id === id);
+  const titre = document.querySelector(".modal-title");
+  const boutton = document.querySelector(".submit-btn > b");
+  const membre = membres.find((m) => m.id === id);
+  const index = membres.findIndex((m) => m.id === id);
   document.getElementById("nom").value = membre.name;
   document.getElementById("roles").value = membre.role;
-  document.getElementById("image").value = membre.image;
   document.getElementById("email").value = membre.email;
   document.getElementById("number").value = membre.telephone;
-  photoPreview.src = `${membre.image}`;
-  formulaire.setAttribute("index-edit", id);
+  document.getElementById("image").value = membre.image;
+  photoPreview.src = membre.image;
+  boutton.textContent = "modifer";
+  titre.textContent = "modifier membre";
+  formulaire.setAttribute("index-edit", index);
 }
 
 function rechercheparnom() {
@@ -204,14 +216,14 @@ function rechercheparnom() {
   data.forEach((e, index) => {
     if (e.name.toLowerCase().includes(input)) {
       container.innerHTML += `
-            <div class="membre">
+            <div class="membre" data-id="${e.id}">
                 <div class="membre-photo" 
                     style="background-image: url('${e.image}');"></div>
                 <div class="membre-info">
                     <p><b>Nom :</b> <span>${e.name}</span></p>
                     <p><b>Role :</b> <span>${e.role}</span></p>
                 </div>
-                <button class="edit-btn" onclick="modifiermembre(${index})">
+                <button class="edit-btn" onclick="modifiermembre(${e.id})">
                     Modifier
                 </button>
             </div>
@@ -244,9 +256,7 @@ function membredisponible(zone) {
       Roles.push(role);
     }
   }
-  const filtres = data.filter((m) => 
-     Roles.includes(m.role) && !m.assignedZone
-  );
+  const filtres = data.filter((m) => Roles.includes(m.role) && !m.assignedZone);
   afficherModalSelection(filtres, zone);
 }
 
@@ -258,10 +268,10 @@ function afficherModalSelection(filtres, zone) {
     modal.classList.remove("closes");
     return;
   }
-    modal.innerHTML = `<div class="close" onclick="closemodal1()">X</div>
+  modal.innerHTML = `<div class="close" onclick="closemodal1()">X</div>
               <h2>Choisir un membre pour : ${zone}</h2>`;
-    filtres.forEach((m) => {
-      modal.innerHTML += `<div class="listemodal"> 
+  filtres.forEach((m) => {
+    modal.innerHTML += `<div class="listemodal"> 
                       <div class="itemmembre" onclick='detailemembre(${m.id} , "${zone}")'>
                           <img src="${m.image}" class="avatar"/>
                           <div>
@@ -271,10 +281,8 @@ function afficherModalSelection(filtres, zone) {
                       </div>
                   
   `;
-      modal.classList.remove("closes");
-
-    });
-  
+    modal.classList.remove("closes");
+  });
 }
 
 function detailemembre(id, zone) {
@@ -328,9 +336,7 @@ function ajoutdanszone(zone, id) {
   const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
   // console.log(membres)
   const zoneDiv = document.querySelector(`[data-zone ="${zone}"]`);
-  const membre = membres.find((m) => 
-    m.id === id
-  );
+  const membre = membres.find((m) => m.id === id);
   // console.log(membre)
   const enfant = zoneDiv.querySelector(".content");
   enfant.innerHTML += `
@@ -359,7 +365,7 @@ function removemembre(id, zone) {
   const assigned = zoneDiv.querySelector(`.assigned-member[data-id="${id}"]`);
   if (assigned) assigned.remove();
 
-const container = document.querySelector(".containermembre");
+  const container = document.querySelector(".containermembre");
   container.innerHTML += `
     <div class="membre" data-id="${membre.id}">
       <div class="membre-photo" style="background-image: url('${membre.image}');"></div>
@@ -370,14 +376,13 @@ const container = document.querySelector(".containermembre");
       <button class="edit-btn" onclick="modifiermembre(${membre.id})">Modifier</button>
     </div>
   `;
-    membre.assignedZone = null;
-    localStorage.setItem("lesmembres", JSON.stringify(membres));
+  membre.assignedZone = null;
+  localStorage.setItem("lesmembres", JSON.stringify(membres));
 
-    membredisponible(zone);
-    closemodal1();
-    zoneenrouge()
+  membredisponible(zone);
+  closemodal1();
+  zoneenrouge();
 }
-
 
 function afficherZones() {
   const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
@@ -400,37 +405,30 @@ function afficherZones() {
   });
 }
 
-
-
-function zoneenrouge(){
-   const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
-   const leszones = document.querySelectorAll(".box");
-   leszones.forEach(zone => {
+function zoneenrouge() {
+  const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
+  const leszones = document.querySelectorAll(".box");
+  leszones.forEach((zone) => {
     const zoneattribute = zone.getAttribute("data-zone");
     let occupe = false;
-    membres.forEach(membre => {
+    membres.forEach((membre) => {
       if (membre.assignedZone === zoneattribute) {
         occupe = true;
       }
     });
 
     if (occupe) {
-      zone.style.backgroundColor = "rgba(209, 225, 209, 0.3)"; 
+      zone.style.backgroundColor = "rgba(209, 225, 209, 0.3)";
     } else {
-      zone.style.backgroundColor = "rgba(255, 0, 0, 0.3)";  
+      zone.style.backgroundColor = "rgba(255, 0, 0, 0.3)";
     }
   });
 }
-
-
-
 
 function closemodal1() {
   document.querySelector(".modaldisponible").classList.add("closes");
 }
 window.onload = function () {
   afficherMembres();
-  afficherZones()
-
-
+  afficherZones();
 };

@@ -634,12 +634,16 @@ form select {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 70%;
+    width: 100%;
+  }
+  .content{
+    width: 100%;
+    padding-top: 15px;
+    overflow-x: hidden;
   }
   .box {
-    padding-top: 15px;
-    margin: 0;
-    background: rgba(207, 191, 191, 0.1); /* transparent mais clickable */
+    padding-top: 10px;
+      background: rgba(207, 191, 191, 0.1);
   }
 
 
@@ -656,9 +660,10 @@ form select {
   }
   .containermembre{
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
   }
   .membre {
-    width: 40%;
+    width: 45%;
   }
 }
