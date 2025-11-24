@@ -2,18 +2,23 @@ const imageInput = document.getElementById("image");
 const photoPreview = document.getElementById("photoPreview");
 // console.log(photoPreview);
 // console.log(imageInput);
-function loadimg(src) {
+const defaultimg = "./defaultimg.png";
+function loadimg() {
   const img = document.createElement("img");
-  return new Promise((resolve, reject) => {
-    img.src = src;
-    img.onload = resolve;
-    img.onerror = reject;
-  });
+  const url = imageInput.value.trim();
+  if (!url) {
+    photoPreview.src = defaultimg;
+    return;
+  }
+  img.src = url;
+  img.onload = function () {
+    photoPreview.src = url;
+  };
+  img.onerror = function () {
+    photoPreview.src = defaultimg;
+  };
 }
 function updateimg() {
-  const url = imageInput.value.trim();
-  const defaultimg = "./defaultimg.png";
-
   if (!url) {
     photoPreview.src = defaultimg;
     return;
@@ -145,11 +150,10 @@ function closemodal() {
   const boutton = document.querySelector(".submit-btn > b");
   boutton.textContent = "Add Worker";
   titre.textContent = "Add Worker";
-    const parent = document.querySelectorAll(".experience-block");
-    parent.forEach((element, index)=>{
-      sumpression(element);
-    })
-
+  const parent = document.querySelectorAll(".experience-block");
+  parent.forEach((element, index) => {
+    sumpression(element);
+  });
 }
 
 function ajoutexperience() {
@@ -214,7 +218,6 @@ function modifiermembre(id) {
   boutton.textContent = "modifer";
   titre.textContent = "modifier membre";
   formulaire.setAttribute("index-edit", index);
-  
 }
 
 function rechercheparnom() {
@@ -366,7 +369,7 @@ function ajoutdanszone(zone, id) {
   // console.log(membre)
   const enfant = zoneDiv.querySelector(".content");
   enfant.innerHTML += `
-    <div class="assigned-member" data-id="${membre.id}">
+    <div class="assigned-member" data-id="${membre.id}"  >
       <button onclick="removemembre(${id}, '${zone}')" class="removemembre">X</button>
       <img src="${membre.image}" class="avatar-zone" onclick="detailemembre(${membre.id}, '${zone}')">
       <div class="contenumembre">
@@ -434,12 +437,12 @@ function afficherZones() {
 function zoneenrouge() {
   const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
   const leszones = document.querySelectorAll(".box");
- const toujoursVertes = ["staffroom", "conference"];
+  const toujoursVertes = ["staffroom", "conference"];
   leszones.forEach((zone) => {
     const zoneattribute = zone.getAttribute("data-zone");
-    if(toujoursVertes.includes(zoneattribute)){
+    if (toujoursVertes.includes(zoneattribute)) {
       zone.style.backgroundColor = "rgba(209, 225, 209, 0.3)";
-      return ;
+      return;
     }
     let occupe = false;
     membres.forEach((membre) => {
