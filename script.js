@@ -366,8 +366,7 @@ function ajoutdanszone(zone, id) {
   // console.log(membre)
   const enfant = zoneDiv.querySelector(".content");
   enfant.innerHTML += `
-    <div class="assigned-member" data-id="${membre.id}"  >
-
+    <div class="assigned-member" data-id="${membre.id}">
       <button onclick="removemembre(${id}, '${zone}')" class="removemembre">X</button>
       <img src="${membre.image}" class="avatar-zone" onclick="detailemembre(${membre.id}, '${zone}')">
       <div class="contenumembre">
@@ -435,8 +434,13 @@ function afficherZones() {
 function zoneenrouge() {
   const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
   const leszones = document.querySelectorAll(".box");
+ const toujoursVertes = ["staffroom", "conference"];
   leszones.forEach((zone) => {
     const zoneattribute = zone.getAttribute("data-zone");
+    if(toujoursVertes.includes(zoneattribute)){
+      zone.style.backgroundColor = "rgba(209, 225, 209, 0.3)";
+      return ;
+    }
     let occupe = false;
     membres.forEach((membre) => {
       if (membre.assignedZone === zoneattribute) {
