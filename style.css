@@ -289,7 +289,7 @@ form select {
   border-radius: 12px;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
   border-left: 4px solid #394aa6;
-  cursor: pointer;
+
 }
 
 .membre-photo {
@@ -300,6 +300,7 @@ form select {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+    cursor: pointer;
 }
 
 .membre-info p {

@@ -135,11 +135,21 @@ formulaire.addEventListener("submit", (e) => {
   document.querySelector(".formmodal").classList.add("closes");
 
   afficherMembres();
+  closemodal();
 });
 
 function closemodal() {
   document.querySelector(".formmodal").classList.add("closes");
   formulaire.reset();
+  const titre = document.querySelector(".modal-title");
+  const boutton = document.querySelector(".submit-btn > b");
+  boutton.textContent = "Add Worker";
+  titre.textContent = "Add Worker";
+    const parent = document.querySelectorAll(".experience-block");
+    parent.forEach((element, index)=>{
+      sumpression(element);
+    })
+
 }
 
 function ajoutexperience() {
@@ -173,8 +183,8 @@ function afficherMembres() {
   membres.forEach((m) => {
     if (!m.assignedZone) {
       container.innerHTML += `
-        <div class="membre" data-id="${m.id}" onclick="detailemembre(${m.id}, null)">
-          <div class="membre-photo" style="background-image: url('${m.image}');"></div>
+        <div class="membre" data-id="${m.id}" >
+          <div class="membre-photo" style="background-image: url('${m.image}');" onclick="detailemembre(${m.id}, null)"></div>
           <div class="membre-info">
             <p><b>Nom :</b> ${m.name}</p>
             <p><b>Role :</b> ${m.role}</p>
@@ -199,10 +209,12 @@ function modifiermembre(id) {
   document.getElementById("email").value = membre.email;
   document.getElementById("number").value = membre.telephone;
   document.getElementById("image").value = membre.image;
+
   photoPreview.src = membre.image;
   boutton.textContent = "modifer";
   titre.textContent = "modifier membre";
   formulaire.setAttribute("index-edit", index);
+  
 }
 
 function rechercheparnom() {
@@ -306,15 +318,13 @@ function detailemembre(id, zone) {
 
   if (!zone) {
     boutonAction = "";
-  } 
-  else if (membre.assignedZone === zone) {
+  } else if (membre.assignedZone === zone) {
     boutonAction = `
       <button class="assign-btn" onclick='removemembre(${membre.id}, "${zone}")'>
         Retirer de la zone
       </button>
     `;
-  } 
-  else if (!membre.assignedZone) {
+  } else if (!membre.assignedZone) {
     boutonAction = `
       <button class="assign-btn" onclick='ajoutdanszone("${zone}", ${membre.id})'>
         Ajouter dans cette zone
@@ -347,7 +357,6 @@ function detailemembre(id, zone) {
 
   modal.classList.remove("closes");
 }
-
 
 function ajoutdanszone(zone, id) {
   const membres = JSON.parse(localStorage.getItem("lesmembres")) || [];
