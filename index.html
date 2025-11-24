@@ -76,7 +76,7 @@
     <div class="formmodal closes">
       <div class="close" onclick="closemodal()">X</div>
 
-      <form action="" id="form-member">
+      <form id="form-member">
         <h2 class="modal-title">Add Worker</h2>
 
         <label for="nom">Name:</label>
@@ -99,9 +99,10 @@
           class="image"
           placeholder="https://example.com/photo.jpg"
           oninput="updateimg()"
+          alt="image1"
         />
 
-        <img src="./defaultimg.png" class="photo-preview" id="photoPreview" />
+        <img src="./defaultimg.png" class="photo-preview" id="photoPreview" alt="defaultimg"/>
     
 
         <div id="experience-container"></div>
